@@ -11,7 +11,6 @@ export function expenseBelongsToAccount() {
     const user = req.user as User;
     const expenseId = req.params.id;
     
-    // if `expenseId` is not in query params, then it will be "securely" provided by session or token
     if (!expenseId) {
       return next();
     }
