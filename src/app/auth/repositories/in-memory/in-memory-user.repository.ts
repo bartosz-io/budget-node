@@ -1,9 +1,8 @@
-import { AuthRepository } from './auth.repository';
-import { Id } from '../../models/types';
-import { User } from '../../models/user';
-import { Account } from '../../models/account';
+import { UserRepository } from '../user.repository';
+import { Id } from 'src/models/types';
+import { User } from 'src/models/user';
 
-export class InMemoryAuthRepository implements AuthRepository {
+export class InMemoryUserRepository implements UserRepository {
 
     getUserById(id: Id, attachAccount = false): Promise<User> {
         const user = USERS.find(user => user.id === id);
@@ -15,15 +14,17 @@ export class InMemoryAuthRepository implements AuthRepository {
         });
     }
 
-    getUserByLogin(login: string): Promise<User> {
-        const user = USERS.find(user => user.login === login);
+    getUserByEmail(email: string): Promise<User> {
+        const user = USERS.find(user => user.email === email);
         return new Promise((resolve, reject) => {
             user ? resolve(user) : reject();
         });
     }
 
-    saveUser(user: User): Promise<void> {
-        throw new Error("Method not implemented.");
+    createUser(user: User): Promise<Id> {
+        user.id = USERS.length + 1;
+        USERS.push(user);
+        return Promise.resolve(user.id);
     }
 
 }
@@ -32,24 +33,17 @@ const USERS: User[] = [
     {
         id: '1',
         accountId: '1',
-        login: 'bartosz',
+        email: 'bartosz@app.com',
         password: '$2y$10$k.58cTqd/rRbAOc8zc3nCupCC6QkfamoSoO2Hxq6HVs0iXe7uvS3e', // '123'
-        role: 'OWNER'
+        role: 'OWNER',
+        confirmed: true
     },
     {
         id: '2',
         accountId: '2',
-        login: 'john',
+        email: 'john@app.com',
         password: '$2y$10$k.58cTqd/rRbAOc8zc3nCupCC6QkfamoSoO2Hxq6HVs0iXe7uvS3e', // '123'
-        role: 'OWNER'
+        role: 'OWNER',
+        confirmed: true
     }
 ];
-
-const ACCOUNTS: Account[] = [
-    {
-        id: '1'
-    },
-    {
-        id: '2'
-    }
-]

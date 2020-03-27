@@ -1,12 +1,12 @@
 import { Id } from 'src/models/types';
 import { User } from 'src/models/user';
 
-export interface AuthRepository {
+export interface UserRepository {
     
     getUserById(id: Id, attachAccount?: boolean): Promise<User>;
  
-    getUserByLogin(login: string): Promise<User>;
+    getUserByEmail(email: string): Promise<User>;
     
-    saveUser(user: User): Promise<void>;
+    createUser(user: User): Promise<Id>;
 
 }

@@ -3,6 +3,6 @@ import { User } from './user';
 
 export class Account {
   constructor(
-    public id: Id,
+    public id?: Id,
     users: User[] = []) { }
 }

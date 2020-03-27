@@ -3,12 +3,6 @@ import { Strategy as JwtStrategy } from 'passport-jwt';
 import { ExtractJwt } from 'passport-jwt';
 import passport = require('passport');
 import CONFIG from '../../config';
-import { AuthRepository } from './auth.repository';
-import { InMemoryAuthRepository } from './in-memory-auth.repository';
-
-// use InMemoryAuthRepository
-// TODO provide configuration for this
-const authRepository: AuthRepository = new InMemoryAuthRepository();
 
 const passportOpts = {
   jwtFromRequest: ExtractJwt.fromAuthHeaderAsBearerToken(),

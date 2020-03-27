@@ -9,9 +9,7 @@ export class InMemoryBudgetRepository implements BudgetRepository {
 
   getBugdets(accountId: Id, period: Period): Promise<Budget[]> {
     const budgets = BUDGETS.filter(budget => period.equals(budget.period) && budget.accountId === accountId);
-    return new Promise((resolve, reject) => {
-      budgets ? resolve(budgets) : reject();
-    });
+    return Promise.resolve(budgets ? budgets : []);
   }
 
   getBudgetSummary(accountId: Id, period: Period): Promise<BudgetSummary> {

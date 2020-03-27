@@ -1,5 +1,5 @@
-import { Id } from '../../../models/types';
-import { ExpenseCategory } from '../../../models/expenseCategory';
+import { Id } from 'src/models/types';
+import { ExpenseCategory } from 'src/models/expenseCategory';
 
 export interface ExpenseCategoriesRepository {
 
@@ -7,6 +7,6 @@ export interface ExpenseCategoriesRepository {
 
   getExpensesCategories(accountId: Id): Promise<ExpenseCategory[]>;
 
-  // TODO add missing operations
+  createDefaultExpensesCategories(accountId: Id): Promise<void>;
 
 }

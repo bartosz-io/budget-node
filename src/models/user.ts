@@ -1,10 +1,13 @@
+import { Id } from './types';
 import { Account } from './account';
 
 export class User {
-  id?: string;
-  accountId?: string;
+  id?: Id;
+  accountId?: Id;
   account?: Account;
-  login?: string;
+  email?: string;
   password?: string;
   role?: 'OWNER' | 'READER';
+  confirmed = false;
+  confirmationCode? : string;
 }
