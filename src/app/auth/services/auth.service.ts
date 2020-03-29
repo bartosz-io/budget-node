@@ -1,16 +1,14 @@
+import { RequestHandler } from 'express';
 import { AuthRequest } from 'src/models/authRequest';
-import { Tokens } from 'src/models/tokens';
 
-export interface AuthService {
+export interface AuthService<T> {
 
-    signup(signupRequest: AuthRequest): Promise<void>;
+    authenticate(): RequestHandler;
 
-    confirm(email: string, confirmationCode: string): Promise<void>;
+    login(loginRequest: AuthRequest): Promise<T>;
     
-    login(loginRequest: AuthRequest): Promise<Tokens>;
-    
-    logout(refreshToken: string): void;
-    
-    refresh(refreshToken: string): Promise<Tokens>;
+    logout(session?: any): Promise<void>;
 
+    getCurrentUser(session?: any): Promise<any>;
+    
 }

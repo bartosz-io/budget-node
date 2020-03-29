@@ -6,16 +6,11 @@ import CONFIG from '../../config';
 
 const passportOpts = {
   jwtFromRequest: ExtractJwt.fromAuthHeaderAsBearerToken(),
-  secretOrKey: CONFIG.secret
+  secretOrKey: CONFIG.jwtSecret
 };
 
 passport.use(new JwtStrategy(passportOpts, function (jwtPayload: any, done: VerifiedCallback) {
   done(null, jwtPayload);
 }));
-
-// use for session-based auth
-// passport.serializeUser(function (user: User, done: VerifiedCallback) {
-//   done(null, user.id)
-// });
 
 export default passport;

@@ -1,13 +1,15 @@
 import { Router, Request, Response } from 'express';
-import { JwtAuthService } from './services/jwt-auth.service';
+import { SignupService } from './services/signup.service';
 import { AuthRequest } from '../../models/authRequest';
+import CONFIG from './../../config';
 
 const router = Router();
-const authService = new JwtAuthService(); // TODO move as a strategy to config or DI container
+const authService = CONFIG.authService;
+const signupService = new SignupService();
 
 router.post('/signup', function (req: Request, res: Response) {
-  const signupRequest = AuthRequest.build(req.body);
-  authService.signup(signupRequest).then(() => {
+  const signupRequest = AuthRequest.buildFromRequest(req);
+  signupService.signup(signupRequest).then(() => {
     res.sendStatus(204);
   }).catch(() => {
     res.status(400).json({msg: 'Signup failed'});
@@ -17,41 +19,32 @@ router.post('/signup', function (req: Request, res: Response) {
 router.get('/confirm', function (req: Request, res: Response) {
   let email = req.query.email;
   let confirmationCode = req.query.code;
-  authService.confirm(email, confirmationCode).then(() => {
+  signupService.confirm(email, confirmationCode).then(() => {
     res.sendStatus(204);
   }).catch(() => {
     res.status(400).json({msg: 'Confirmation failed'});
   });
 });
 
-
-
 router.post('/login', function (req: Request, res: Response) {
-  const loginRequest = AuthRequest.build(req.body);
-  authService.login(loginRequest).then(tokens => {
-    res.json(tokens);
+  const loginRequest = AuthRequest.buildFromRequest(req);
+  authService.login(loginRequest).then(result => {
+    res.json(result);
   }).catch(() => {
     res.status(401).json({msg: 'Wrong email or password'});
   });
 });
 
-router.post('/logout', function (req: Request, res: Response) {
-  const refreshToken = req.body.refreshToken;
-  authService.logout(refreshToken);
-  res.sendStatus(204);
+router.get('/logout', function (req: Request, res: Response) {
+  authService.logout(req.session).then(() => {
+    res.sendStatus(204);
+  });
 });
 
-if (authService instanceof JwtAuthService) {
-
-  router.post('/refresh', function (req: Request, res: Response) {
-    const refreshToken = req.body.refreshToken;
-    authService.refresh(refreshToken).then(tokens => {
-      res.json(tokens);
-    }).catch(() => {
-      res.status(401).json({msg: 'You have been logged out'});
-    });
+router.get('/user', function (req: Request, res: Response) {
+  authService.getCurrentUser(req.session).then((user) => {
+    res.status(200).json(user);
   });
-
-}
+});
 
 export default router;
