@@ -4,7 +4,7 @@ import { AuthService } from './auth.service';
 import { UserRepository } from '../repositories/user.repository';
 import { InMemoryUserRepository } from '../repositories/in-memory/in-memory-user.repository';
 import { AuthRequest } from 'src/models/authRequest';
-import { User } from 'src/models/user';
+import { User } from '../../../models/user';
 
 // TODO provide configuration for repositories
 const userRepository: UserRepository = new InMemoryUserRepository();
@@ -28,7 +28,7 @@ export class SessionAuthService implements AuthService<User> {
       return bcrypt.compare(loginRequest.password, user.password!).then(match => {
         if (match && user.confirmed) {
           loginRequest.session.user = user;
-          return Promise.resolve(user);
+          return Promise.resolve(User.toSafeUser(user));
         } else {
           return Promise.reject();
         }
@@ -46,10 +46,11 @@ export class SessionAuthService implements AuthService<User> {
     }
   }
 
-  getCurrentUser(session: any): Promise<void> {
+  getCurrentUser(session: any): Promise<any> {
     if (session && session.user) {
-      // we may want to strip out some properties here
-      return Promise.resolve(session.user);
+      const user = User.build(session.user);
+      const safeUser = User.toSafeUser(user);
+      return Promise.resolve(safeUser);
     } else {
       return Promise.resolve();
     }

@@ -44,13 +44,7 @@ export class JwtAuthService implements AuthService<Token> {
 }
 
 function createSignedToken(user: User) {
-  const payload = {
-    id: user.id,
-    accountId: user.accountId,
-    email: user.email,
-    role: user.role
-  };
-  
+  const payload = User.toSafeUser(user);
   return jwt.sign(payload, CONFIG.jwtSecret,
     { expiresIn: 600 }); // 600 seconds = 10 minutes
 }
