@@ -16,7 +16,7 @@ export default {
     saveUninitialized: true,
     resave: false,
     cookie: {
-      sameSite: false,
+      sameSite: 'lax' as 'lax',
       maxAge: 3600000
     }
   },
