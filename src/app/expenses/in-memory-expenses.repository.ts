@@ -65,6 +65,6 @@ const date2 = new Date('2020-03-11');
 let EXPENSES: Expense[] = [
   new Expense('1', '1', 21.4, date1, period, '1', 'McDonalds'),
   new Expense('2', '1', 31.9, date2, period, '3', 'CinemaCity'),
-  new Expense('3', '2', 21.5, date2, period, '3', 'CinemaX'),
-  new Expense('4', '2', 11.5, date1, period, '1', 'KFC'),
+  new Expense('3', '2', 21.5, date2, period, '8', 'CinemaX'),
+  new Expense('4', '2', 11.5, date1, period, '6', 'KFC'),
 ];
