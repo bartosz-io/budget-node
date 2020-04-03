@@ -45,5 +45,13 @@ const USERS: User[] = [
         password: '$2y$10$k.58cTqd/rRbAOc8zc3nCupCC6QkfamoSoO2Hxq6HVs0iXe7uvS3e', // '123'
         role: 'OWNER',
         confirmed: true
+    },
+    {
+        id: '3',
+        accountId: '2',
+        email: 'mike@app.com',
+        password: '$2y$10$k.58cTqd/rRbAOc8zc3nCupCC6QkfamoSoO2Hxq6HVs0iXe7uvS3e', // '123'
+        role: 'READER',
+        confirmed: true
     }
 ];
