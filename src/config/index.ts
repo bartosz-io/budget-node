@@ -12,6 +12,7 @@ export default {
   clientUrl: 'http://localhost:4200',
   morganPattern: ':method :url :status :res[content-length] - :response-time ms',
   sessionConfig: {
+    name: 'session_id',
     secret: cookieSecret,
     saveUninitialized: true,
     resave: false,
