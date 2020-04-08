@@ -1,3 +1,5 @@
+import path = require('path');
+import rfs = require('rotating-file-stream');
 import { AuthService } from './../app/auth/services/auth.service';
 import { JwtAuthService } from './../app/auth/services/jwt-auth.service';
 import { SessionAuthService } from './../app/auth/services/session-auth.service';
@@ -10,7 +12,6 @@ const authService: AuthService<any> = new SessionAuthService();
 export default {
   jwtSecret,
   clientUrl: 'http://localhost:4200',
-  morganPattern: ':method :url :status :res[content-length] - :response-time ms',
   sessionConfig: {
     name: 'session_id',
     secret: cookieSecret,
@@ -22,4 +23,9 @@ export default {
     }
   },
   authService,
+  morganPattern: 'common',
+  morganStream: rfs.createStream('access.log', {
+    interval: '1d',
+    path: path.join(process.cwd(), 'log')
+  })
 }

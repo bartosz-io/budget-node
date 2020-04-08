@@ -13,7 +13,7 @@ import config from './config';
 const app = express();
 app.use(express.static('../angular/dist/'));
 app.use(session(config.sessionConfig));
-app.use(morgan(config.morganPattern));
+app.use(morgan(config.morganPattern, { stream: config.morganStream }));
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(passport.initialize());
