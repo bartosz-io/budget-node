@@ -12,6 +12,7 @@ const userRepository: UserRepository = new InMemoryUserRepository();
 
 export class SessionAuthService implements AuthService<User> {
 
+  // TODO move HTTP specific code away from Service layer
   authenticate() {
     return (req: Request, res: Response, next: NextFunction) => {
       if (req.session && req.session.user) {
