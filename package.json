@@ -4,15 +4,18 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "start": "nodemon --config nodemon.json"
+    "start": "nodemon --config nodemon.json",
+    "start:log": "env LOGS=stdout nodemon --config nodemon.json | bunyan"
   },
   "author": "",
   "license": "ISC",
   "dependencies": {
     "@types/bcryptjs": "^2.4.2",
+    "@types/bunyan": "^1.8.6",
     "@types/csurf": "^1.9.36",
     "bcryptjs": "^2.4.3",
     "body-parser": "^1.18.3",
+    "bunyan": "^1.8.12",
     "cors": "^2.8.5",
     "csurf": "^1.11.0",
     "express": "^4.16.4",

@@ -9,6 +9,8 @@ import csrfCookieSetter from './utils/set-csrf-cookie';
 import passport from './app/auth/passport';
 import routes from './routes';
 import config from './config';
+import errorHandler from './utils/error-handler';
+import logger from './utils/logger';
 
 const app = express();
 app.use(express.static('../angular/dist/'));
@@ -20,5 +22,7 @@ app.use(passport.initialize());
 app.use(cors());
 app.use(csrf());
 app.use(csrfCookieSetter());
+app.use(errorHandler());
+app.use(logger.initialize());
 app.use(routes);
-app.listen(8080);
+app.listen(8080, () => logger.info('main.app_start'));

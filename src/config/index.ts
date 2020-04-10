@@ -1,16 +1,21 @@
 import path = require('path');
 import rfs = require('rotating-file-stream');
-import { AuthService } from './../app/auth/services/auth.service';
-import { JwtAuthService } from './../app/auth/services/jwt-auth.service';
-import { SessionAuthService } from './../app/auth/services/session-auth.service';
 
 const jwtSecret = 'VERY_SECRET_KEY!'; // TODO change in prod
-const cookieSecret = 'VERY_SECRET_KEY!'; // TODO change in prod (used to sign cookie session id)
+const cookieSecret = 'VERY_SECRET_KEY!'; // TODO change in prod
 
-const authService: AuthService<any> = new SessionAuthService();
+const bunyanStreamSetting = process.env.LOGS || 'file';
+const bunyanStdoutStream = { stream: process.stdout };
+const bunyanFileStream = {
+  type: 'rotating-file',
+  path: path.join(process.cwd(), 'log', 'app'),
+  period: '1d',
+  count: 3
+};
 
 export default {
   jwtSecret,
+  auth: 'session' as 'session' | 'jwt',
   clientUrl: 'http://localhost:4200',
   sessionConfig: {
     name: 'session_id',
@@ -22,10 +27,10 @@ export default {
       maxAge: 3600000
     }
   },
-  authService,
   morganPattern: 'common',
   morganStream: rfs.createStream('access.log', {
     interval: '1d',
     path: path.join(process.cwd(), 'log')
-  })
+  }),
+  bunyanStream: bunyanStreamSetting === 'stdout' ? bunyanStdoutStream : bunyanFileStream
 }

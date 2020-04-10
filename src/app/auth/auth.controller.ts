@@ -1,10 +1,9 @@
 import { Router, Request, Response } from 'express';
-import { SignupService } from './services/signup.service';
 import { AuthRequest } from '../../models/authRequest';
-import CONFIG from './../../config';
+import { SignupService } from './services/signup.service';
+import authService from './../auth/services/auth.service.instance';
 
 const router = Router();
-const authService = CONFIG.authService;
 const signupService = new SignupService();
 
 router.post('/signup', function (req: Request, res: Response) {

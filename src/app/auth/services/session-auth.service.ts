@@ -5,6 +5,7 @@ import { UserRepository } from '../repositories/user.repository';
 import { InMemoryUserRepository } from '../repositories/in-memory/in-memory-user.repository';
 import { AuthRequest } from 'src/models/authRequest';
 import { User } from '../../../models/user';
+import log from './../../../utils/logger';
 
 // TODO provide configuration for repositories
 const userRepository: UserRepository = new InMemoryUserRepository();
@@ -28,8 +29,10 @@ export class SessionAuthService implements AuthService<User> {
       return bcrypt.compare(loginRequest.password, user.password!).then(match => {
         if (match && user.confirmed) {
           loginRequest.session.user = user;
+          log.info('auth.session_login_successful', { user });
           return Promise.resolve(User.toSafeUser(user));
         } else {
+          log.info('auth.session_login_failed', { user });
           return Promise.reject();
         }
       });
@@ -38,10 +41,19 @@ export class SessionAuthService implements AuthService<User> {
 
   logout(session: any): Promise<void> {
     if (session && session.destroy) {
-      return new Promise((resolve) => {
-        session.destroy(() => resolve());
+      return new Promise((resolve, reject) => {
+        session.destroy((error: any) => {
+          if (!error) {
+            log.info('auth.session_logout_successful', { user: session.user });
+            resolve();
+          } else {
+            log.error('auth.session_destroy_failed', { error });
+            reject(error);
+          }
+        })
       });
     } else {
+      log.warn('auth.logout_session_not_found');
       return Promise.resolve();
     }
   }

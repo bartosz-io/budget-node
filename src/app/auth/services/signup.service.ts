@@ -8,6 +8,7 @@ import { InMemoryUserRepository } from '../repositories/in-memory/in-memory-user
 import { ExpenseCategoriesRepository } from '../../shared/expense-categories/expense-categories.repository';
 import { InMemoryExpenseCategoriesRepository } from '../../shared/expense-categories/in-memory-expense-categories.repository';
 import { AuthRequest } from 'src/models/authRequest';
+import log from './../../../utils/logger';
 
 const userRepository: UserRepository = new InMemoryUserRepository();
 const accountRepository: AccountRepository = new InMemoryAccountRepository();
@@ -51,8 +52,12 @@ export class SignupService {
             confirmationCode
           })
         ])).then(() => {
+          log.info('auth.signup_successful', { email: signupRequest.email });
           this.sendConfirmationEmail(signupRequest.email, confirmationCode);
           return Promise.resolve();
+        }).catch(error => {
+          log.error('auth.signup_failed', { email: signupRequest.email });
+          throw error; // rethrow the error for the controller
         })
       );
   }
@@ -62,7 +67,9 @@ export class SignupService {
       if (user && !user.confirmed && user.confirmationCode === confirmationCode) {
         user.confirmed = true;
         user.confirmationCode = undefined;
+        log.info('auth.confirmation_successful', { email });
       } else {
+        log.warn('auth.confirmation_failed', { email });
         return Promise.reject();
       }
     });
@@ -71,6 +78,7 @@ export class SignupService {
   private sendConfirmationEmail(email: string, code: string) {
     const link = `${CONFIG.clientUrl}/confirm?email=${email}&code=${code}`;
     console.log(`>>> LINK >>>: ${link}`); // mock email sending :)
+    log.info('auth.signup_confirmation_email_sent', { email });
   }
 
 }

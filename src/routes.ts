@@ -1,13 +1,11 @@
 
 import { Router } from 'express';
-import CONFIG from './config';
 import authCtrl from './app/auth/auth.controller';
 import dashboardCtrl from './app/dashboard/dashboard.controller';
 import expensesCtrl from './app/expenses/expenses.controller';
 import settingsCtrl from './app/settings/settings.controller';
 import sharedCtrl from './app/shared/shared.controller';
-
-const authService = CONFIG.authService;
+import authService from './app/auth/services/auth.service.instance';
 
 const api = Router();
 api.use(dashboardCtrl);
