@@ -29,8 +29,8 @@ router.post('/login', function (req: Request, res: Response) {
   const loginRequest = AuthRequest.buildFromRequest(req);
   authService.login(loginRequest).then(result => {
     res.json(result);
-  }).catch(() => {
-    res.status(401).json({msg: 'Wrong email or password'});
+  }).catch((err) => {
+    res.status(401).json({msg: err ? err : 'Login failed'});
   });
 });
 

@@ -16,6 +16,10 @@ const bunyanFileStream = {
 export default {
   jwtSecret,
   auth: 'session' as 'session' | 'jwt',
+  loginThrottle: {
+    maxFailures: 3,
+    timeWindowInMinutes: 10
+  },
   clientUrl: 'http://localhost:4200',
   sessionConfig: {
     name: 'session_id',
