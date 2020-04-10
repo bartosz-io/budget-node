@@ -6,7 +6,7 @@ import config from './../../../config';
 function getAuthService(): AuthService<any> {
   switch (config.auth) {
     case 'session':
-      return new SessionAuthService;
+      return new SessionAuthService();
     case 'jwt':
       return new JwtAuthService();
     default:
