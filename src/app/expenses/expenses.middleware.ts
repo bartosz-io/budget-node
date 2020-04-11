@@ -19,7 +19,7 @@ export function expenseBelongsToAccount() {
       if (expense.accountId === user.accountId) {
         return next();
       } else {
-        res.status(401).json({ error: 'You are not authorized to perform this operation' });
+        res.status(403).json({ error: 'You are not authorized to perform this operation' });
         return next('Unauthorized');
       }
     }).catch(() => res.sendStatus(404));
