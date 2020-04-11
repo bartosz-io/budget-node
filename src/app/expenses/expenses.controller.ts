@@ -4,6 +4,7 @@ import { InMemoryExpensesRepository } from './in-memory-expenses.repository';
 import { buildPeriodFromRequest } from '../../utils/controller.utils';
 import { expenseBelongsToAccount } from './expenses.middleware';
 import { roleCheck } from '../auth/role.middleware';
+import expensesValidator from './expenses.validator';
 import { User } from '../../models/user';
 
 const repository: ExpensesRepository = new InMemoryExpensesRepository(); // TODO use DI container
@@ -25,7 +26,7 @@ router.get('/expenses/:month/:year', function (req: Request, res: Response) {
   }
 });
 
-router.post('/expenses', function (req: Request, res: Response) {
+router.post('/expenses', expensesValidator, function (req: Request, res: Response) {
   const user = req.user as User;
   const expense = req.body;
   expense.accountId = user.accountId;
@@ -34,7 +35,7 @@ router.post('/expenses', function (req: Request, res: Response) {
     .then(() => res.status(201).json());
 });
 
-router.put('/expenses/:id', function (req: Request, res: Response) {
+router.put('/expenses/:id', expensesValidator, function (req: Request, res: Response) {
   const user = req.user as User;
   const expense = req.body;
   expense.id = req.params.id;

@@ -1,12 +1,13 @@
 import { Router, Request, Response } from 'express';
 import { AuthRequest } from '../../models/authRequest';
 import { SignupService } from './services/signup.service';
-import authService from './../auth/services/auth.service.instance';
+import authService from './services/auth.service.instance';
+import validator from './auth.validator';
 
 const router = Router();
 const signupService = new SignupService();
 
-router.post('/signup', function (req: Request, res: Response) {
+router.post('/signup', validator, function (req: Request, res: Response) {
   const signupRequest = AuthRequest.buildFromRequest(req);
   signupService.signup(signupRequest).then(() => {
     res.sendStatus(204);
