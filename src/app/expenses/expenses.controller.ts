@@ -3,12 +3,13 @@ import { ExpensesRepository } from './expenses.repository';
 import { InMemoryExpensesRepository } from './in-memory-expenses.repository';
 import { buildPeriodFromRequest } from '../../utils/controller.utils';
 import { expenseBelongsToAccount } from './expenses.middleware';
+import { roleCheck } from '../auth/role.middleware';
 import { User } from '../../models/user';
 
 const repository: ExpensesRepository = new InMemoryExpensesRepository(); // TODO use DI container
 const router = Router();
 
-// TODO implement also role checks in all routes
+router.use(roleCheck());
 router.use(expenseBelongsToAccount());
 
 router.get('/expenses/:month/:year', function (req: Request, res: Response) {
