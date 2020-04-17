@@ -41,7 +41,7 @@ export class JwtAuthService implements AuthService<Token> {
             } else if (match && !user.confirmed) {
             
               log.info('auth.jwt_login_failed.not_confirmed', {user});
-              return Promise.reject('Please confirm your account');
+              return Promise.reject('Please confirm your user profile');
             
             } else {
     
