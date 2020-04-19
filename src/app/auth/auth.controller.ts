@@ -40,6 +40,28 @@ router.post('/setup', function (req: Request, res: Response) {
   });
 });
 
+router.get('/recover', function (req: Request, res: Response) {
+  let email = req.query.email;
+
+  passwordService.requestRecovery(email).then(() => {
+    res.sendStatus(204);
+  }).catch(() => {
+    res.status(400).json({msg: 'Recovery failed'});
+  });
+});
+
+router.post('/recover', function (req: Request, res: Response) {
+  let email = req.body.email;
+  let code = req.body.code;
+  let password = req.body.password;
+
+  passwordService.recover(email, code, password).then(() => {
+    res.sendStatus(204);
+  }).catch(() => {
+    res.status(400).json({msg: 'Recovery failed failed'});
+  });
+});
+
 router.post('/login', function (req: Request, res: Response) {
   const loginRequest = AuthRequest.buildFromRequest(req);
   authService.login(loginRequest).then(result => {

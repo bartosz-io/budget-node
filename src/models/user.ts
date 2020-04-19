@@ -10,6 +10,10 @@ export class User {
   role?: UserRole;
   confirmed = false;
   confirmationCode? : string;
+  recovery?:  {
+    code: string;
+    requested: Date;
+  };
 
   static toSafeUser(user: User): User {
     const { id, accountId, email, role, confirmed } = user;
