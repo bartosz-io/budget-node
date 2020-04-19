@@ -1,11 +1,13 @@
 import { Router, Request, Response } from 'express';
 import { AuthRequest } from '../../models/authRequest';
 import { SignupService } from './services/signup.service';
+import { PasswordService } from './services/password.service';
 import authService from './services/auth.service.instance';
 import validator from './auth.validator';
 
 const router = Router();
 const signupService = new SignupService();
+const passwordService = new PasswordService();
 
 router.post('/signup', validator, function (req: Request, res: Response) {
   const signupRequest = AuthRequest.buildFromRequest(req);
@@ -23,6 +25,18 @@ router.get('/confirm', function (req: Request, res: Response) {
     res.sendStatus(204);
   }).catch(() => {
     res.status(400).json({msg: 'Confirmation failed'});
+  });
+});
+
+router.post('/setup', function (req: Request, res: Response) {
+  let email = req.body.email;
+  let code = req.body.code;
+  let password = req.body.password;
+
+  passwordService.setup(email, code, password).then(() => {
+    res.sendStatus(204);
+  }).catch(() => {
+    res.status(400).json({msg: 'Setting password failed'});
   });
 });
 

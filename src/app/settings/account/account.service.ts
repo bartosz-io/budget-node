@@ -39,7 +39,7 @@ export class AccountService {
   }
 
   private sendConfirmationEmail(email: string, code: string) {
-    const link = `${CONFIG.clientUrl}/confirm?email=${email}&code=${code}`;
+    const link = `${CONFIG.clientUrl}/password?email=${email}&code=${code}`;
     console.log(`>>> LINK >>>: ${link}`); // mock email sending :)
     log.info('settings.create_user_confirmation_email_sent', { email });
   }
