@@ -1,10 +1,10 @@
 import { Id } from './types';
 import { Period } from './period';
-import { ExpenseCategory } from './expenseCategory';
+import { Category } from './category';
 
 export class BudgetDefinition {
   constructor(public id: Id,
     public period: Period,
-    public category: ExpenseCategory,
+    public category: Category,
     public maxExpenses: number) { }
 }

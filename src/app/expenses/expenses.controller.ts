@@ -3,15 +3,14 @@ import { ExpensesRepository } from './expenses.repository';
 import { InMemoryExpensesRepository } from './in-memory-expenses.repository';
 import { buildPeriodFromRequest } from '../../utils/controller.utils';
 import { expenseBelongsToAccount } from './expenses.middleware';
-import { roleCheck } from '../auth/role.middleware';
+import { readerOnlyReads } from '../auth/role.middleware';
 import expensesValidator from './expenses.validator';
 import { User } from '../../models/user';
 
 const repository: ExpensesRepository = new InMemoryExpensesRepository(); // TODO use DI container
 const router = Router();
 
-router.use(roleCheck());
-router.use(expenseBelongsToAccount());
+router.use('/expenses', readerOnlyReads());
 
 router.get('/expenses/:month/:year', function (req: Request, res: Response) {
   const user = req.user as User;
@@ -35,7 +34,7 @@ router.post('/expenses', expensesValidator, function (req: Request, res: Respons
     .then(() => res.status(201).json());
 });
 
-router.put('/expenses/:id', expensesValidator, function (req: Request, res: Response) {
+router.put('/expenses/:id', expenseBelongsToAccount(), expensesValidator, function (req: Request, res: Response) {
   const user = req.user as User;
   const expense = req.body;
   expense.id = req.params.id;
@@ -45,7 +44,7 @@ router.put('/expenses/:id', expensesValidator, function (req: Request, res: Resp
     .then(() => res.status(200).json());
 });
 
-router.delete('/expenses/:id', function (req: Request, res: Response) {
+router.delete('/expenses/:id', expenseBelongsToAccount(), function (req: Request, res: Response) {
   const expenseId = req.params.id;
   repository.deleteExpense(expenseId)
     .then(() => res.sendStatus(204));

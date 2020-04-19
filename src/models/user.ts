@@ -12,8 +12,8 @@ export class User {
   confirmationCode? : string;
 
   static toSafeUser(user: User): User {
-    const { id, accountId, email, role } = user;
-    return  { id, accountId, email, role } as User;
+    const { id, accountId, email, role, confirmed } = user;
+    return  { id, accountId, email, role, confirmed } as User;
   }
 
   static build(data: any): User {

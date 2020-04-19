@@ -5,14 +5,14 @@ import { UserRepository } from '../repositories/user.repository';
 import { AccountRepository } from '../repositories/account.repository';
 import { InMemoryAccountRepository } from '../repositories/in-memory/in-memory-account.repository';
 import { InMemoryUserRepository } from '../repositories/in-memory/in-memory-user.repository';
-import { ExpenseCategoriesRepository } from '../../shared/expense-categories/expense-categories.repository';
-import { InMemoryExpenseCategoriesRepository } from '../../shared/expense-categories/in-memory-expense-categories.repository';
+import { CategoriesRepository } from '../../settings/categories/categories.repository';
+import { InMemoryCategoriesRepository } from '../../settings/categories/in-memory-categories.repository';
 import { AuthRequest } from 'src/models/authRequest';
 import log from './../../../utils/logger';
 
 const userRepository: UserRepository = new InMemoryUserRepository();
 const accountRepository: AccountRepository = new InMemoryAccountRepository();
-const expenseCategoriesRepository: ExpenseCategoriesRepository = new InMemoryExpenseCategoriesRepository();
+const categoriesRepository: CategoriesRepository = new InMemoryCategoriesRepository();
 
 /*
   >>> Salt prevents from Rainbow Tables attack. How bcrypt generates salt?
@@ -42,7 +42,7 @@ export class SignupService {
     return bcrypt.hash(signupRequest.password, 10) // 10 is the salt length (implicit salt generation)
       .then(hashedPassword => accountRepository.createAccount({})
         .then(accountId => Promise.all([
-          expenseCategoriesRepository.createDefaultExpensesCategories(accountId),
+          categoriesRepository.createDefaultCategories(accountId),
           userRepository.createUser({
             accountId: accountId,
             email: signupRequest.email,

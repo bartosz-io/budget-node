@@ -1,5 +1,5 @@
 import { BudgetRepository } from './budget.repository';
-import { EXPENSE_CATEGORIES } from '../shared/expense-categories/in-memory-expense-categories.repository';
+import { CATEGORIES } from '../settings/categories/in-memory-categories.repository';
 import { Id } from '../../models/types';
 import { Period } from '../../models/period';
 import { Budget } from '../../models/budget';
@@ -28,7 +28,7 @@ const BUDGETS: Budget[] = [
     id: '1',
     accountId: '1',
     period: period,
-    category: EXPENSE_CATEGORIES[0],
+    category: CATEGORIES[0],
     currentExpenses: 100,
     maxExpenses: 500
   }),
@@ -36,7 +36,7 @@ const BUDGETS: Budget[] = [
     id: '2',
     accountId: '1',
     period: period,
-    category: EXPENSE_CATEGORIES[1],
+    category: CATEGORIES[1],
     currentExpenses: 100,
     maxExpenses: 300
   }),
@@ -44,7 +44,7 @@ const BUDGETS: Budget[] = [
     id: '3',
     accountId: '2',
     period: period,
-    category: EXPENSE_CATEGORIES[2],
+    category: CATEGORIES[2],
     currentExpenses: 200,
     maxExpenses: 300
   })

@@ -1,6 +1,6 @@
 import { Id } from './types';
 
-export class ExpenseCategory {
+export class Category {
   constructor(
     public id?: Id,
     public accountId?: Id,

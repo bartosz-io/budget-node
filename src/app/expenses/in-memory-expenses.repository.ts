@@ -1,5 +1,5 @@
 import { ExpensesRepository } from './expenses.repository';
-import { EXPENSE_CATEGORIES } from '../shared/expense-categories/in-memory-expense-categories.repository';
+import { CATEGORIES } from '../settings/categories/in-memory-categories.repository';
 import { Id } from '../../models/types';
 import { Period } from '../../models/period';
 import { Expense } from '../../models/expense';
@@ -52,7 +52,7 @@ export class InMemoryExpensesRepository implements ExpensesRepository {
 
   private attachCategory(expense: Expense | undefined) {
     if (expense) {
-      expense.category = EXPENSE_CATEGORIES.find(category => category.id === expense.categoryId);;
+      expense.category = CATEGORIES.find(category => category.id === expense.categoryId);;
     }
   }
 

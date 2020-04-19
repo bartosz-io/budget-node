@@ -5,7 +5,7 @@ import { Id } from 'src/models/types';
 export class InMemoryAccountRepository implements AccountRepository {
 
     createAccount(account: Account): Promise<Id> {
-        account.id = ACCOUNTS.length + 1;
+        account.id = (ACCOUNTS.length + 1).toString();
         ACCOUNTS.push(account);
         return Promise.resolve(account.id);
     }

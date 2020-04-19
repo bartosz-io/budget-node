@@ -1,6 +1,6 @@
 import { Id } from './types';
 import { Period } from './period';
-import { ExpenseCategory } from './expenseCategory';
+import { Category } from './category';
 import { BudgetDefinition } from './budgetDefinition';
 
 export class Budget {
@@ -8,7 +8,7 @@ export class Budget {
   accountId?: string | number; 
   period!: Period;
   categoryId?: string;
-  category?: ExpenseCategory;
+  category?: Category;
   maxExpenses = 0;
   currentExpenses = 0; // updated during adding/removing expense
   get left(): number { return this.maxExpenses - this.currentExpenses; }
@@ -39,7 +39,7 @@ export interface BudgetInput {
   accountId?: string | number; 
   period?: Period;
   categoryId?: string;
-  category?: ExpenseCategory;
+  category?: Category;
   currentExpenses?: number;
   maxExpenses?: number;
 }
