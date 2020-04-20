@@ -1,13 +1,13 @@
 import { Router, Request, Response } from 'express';
 import { AccountService } from './account.service';
 import { denyOwnUserDeletion, userBelongsToAccount } from './account.middleware';
-import { isOwner } from '../../auth/role.middleware';
+import { hasRole } from '../../auth/role.middleware';
 import { User } from '../../../models/user';
 
 const accountService = new AccountService();
 const router = Router();
 
-router.use('/users', isOwner());
+router.use('/users', hasRole('OWNER'));
 
 router.get('/users', function (req: Request, res: Response) {
   const user = req.user as User;

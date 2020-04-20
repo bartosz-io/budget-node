@@ -1,6 +1,6 @@
 import { Request, Response, NextFunction } from 'express';
 import { User } from './../../models/user';
-import { ROLES } from '../../models/types';
+import { ROLES, UserRole } from '../../models/types';
 import log from './../../utils/logger';
 
 export function readerOnlyReads() {
@@ -21,15 +21,15 @@ export function readerOnlyReads() {
 
 }
 
-export function isOwner() {
+export function hasRole(roleToCheck: UserRole) {
 
   return function (req: Request, res: Response, next: NextFunction) {
     const user = req.user as User;
 
     if (!isRoleFound(user)) {
       handleRoleNotFound(user, res);
-    } else if (user.role && user.role.toUpperCase() !== 'OWNER') {
-      log.warn('auth.owner_check_failure', { user });
+    } else if (user.role !== roleToCheck) {
+      log.warn('auth.role_check_failure', { roleToCheck, user });
       res.status(403).json({ msg: 'You are not authorized to perform this operation' });
       next('Unauthorized');
     } else {
@@ -40,7 +40,7 @@ export function isOwner() {
 }
 
 function isRoleFound(user: User) {
-  return ROLES.find(r => r === user.role);
+  return user && ROLES.find(r => r === user.role);
 }
 
 function handleRoleNotFound(user: User, res: Response) {

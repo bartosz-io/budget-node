@@ -41,6 +41,13 @@ export class InMemoryUserRepository implements UserRepository {
 
 let USERS: User[] = [
   {
+    id: '0',
+    email: 'admin@app.com',
+    password: '$2y$10$k.58cTqd/rRbAOc8zc3nCupCC6QkfamoSoO2Hxq6HVs0iXe7uvS3e', // '123'
+    role: 'ADMIN',
+    confirmed: true
+  },
+  {
     id: '1',
     accountId: '1',
     email: 'bartosz@app.com',

@@ -19,7 +19,7 @@ export class SessionAuthService implements AuthService<User> {
         req.user = req.session.user;
         next();
       } else {
-        res.status(401).json({ error: 'You are not authorized to perform this operation' });
+        res.status(401).json({ msg: 'You are not authorized to perform this operation' });
       }
     };
   }

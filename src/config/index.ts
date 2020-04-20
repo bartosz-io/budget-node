@@ -1,5 +1,6 @@
 import path = require('path');
 import rfs = require('rotating-file-stream');
+import { MemoryStore, SessionOptions } from 'express-session';
 
 const jwtSecret = 'VERY_SECRET_KEY!'; // TODO change in prod
 const cookieSecret = 'VERY_SECRET_KEY!'; // TODO change in prod
@@ -29,8 +30,9 @@ export default {
     cookie: {
       sameSite: 'lax' as 'lax',
       maxAge: 3600000
-    }
-  },
+    },
+    store: new MemoryStore()
+  } as SessionOptions,
   morganPattern: 'common',
   morganStream: rfs.createStream('access.log', {
     interval: '1d',
