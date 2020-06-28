@@ -11,9 +11,6 @@ export function userBelongsToAccount() {
     const currentUser = req.user as User;
     const requestedUserId = req.params.id;
 
-    console.log({requestedUserId});
-    
-
     if (!requestedUserId) {
       return next();
     }
