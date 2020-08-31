@@ -49,7 +49,8 @@ export class SignupService {
             password: hashedPassword,
             role: 'OWNER',
             confirmed: false,
-            confirmationCode
+            confirmationCode,
+            createdWith: 'password'
           })
         ])).then(() => {
           log.info('auth.signup_successful', { email: signupRequest.email });
