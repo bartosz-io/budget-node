@@ -31,7 +31,6 @@ export function hasRole(roleToCheck: UserRole) {
     } else if (user.role !== roleToCheck) {
       log.warn('auth.role_check_failure', { roleToCheck, user });
       res.status(403).json({ msg: 'You are not authorized to perform this operation' });
-      next('Unauthorized');
     } else {
       next();
     }
