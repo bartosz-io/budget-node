@@ -1,6 +1,8 @@
 import { Id, UserRole } from './types';
 import { Account } from './account';
 
+export type AuthProvider = 'password' | 'github';
+
 export class User {
   id?: Id;
   accountId?: Id;
@@ -14,6 +16,9 @@ export class User {
     code: string;
     requested: Date;
   };
+
+  createdWith: AuthProvider = 'password';
+  externalId?: {[keyof: string]: string};
 
   static toSafeUser(user: User): User {
     const { id, accountId, email, role, confirmed } = user;
