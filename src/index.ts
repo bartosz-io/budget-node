@@ -10,6 +10,7 @@ import passport from './app/auth/passport';
 import routes from './routes';
 import config from './config';
 import errorHandler from './utils/error-handler';
+import serveIndex from './utils/serve-index';
 import logger from './utils/logger';
 
 const app = express();
@@ -25,4 +26,5 @@ app.use(csrfCookieSetter());
 app.use(errorHandler());
 app.use(logger.initialize());
 app.use(routes);
+app.get('*', serveIndex());
 app.listen(8080, () => logger.info('main.app_start'));
