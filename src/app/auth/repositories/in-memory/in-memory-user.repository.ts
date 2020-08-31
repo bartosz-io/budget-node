@@ -90,15 +90,15 @@ let USERS: User[] = [
     confirmed: true,
     createdWith: 'password'
   },
-  // {
-  //   id: '4',
-  //   accountId: '1',
-  //   email: 'hi@bartosz.io',
-  //   role: 'READER',
-  //   confirmed: true,
-  //   externalId: {
-  //     github: '8076187'
-  //   },
-  //   createdWith: 'github'
-  // }
+  {
+    id: '4',
+    accountId: '1',
+    email: 'hi@bartosz.io',
+    role: 'OWNER',
+    confirmed: true,
+    externalId: {
+      github: '8076187'
+    },
+    createdWith: 'github'
+  }
 ];
