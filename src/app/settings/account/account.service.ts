@@ -23,7 +23,8 @@ export class AccountService {
       password: undefined,
       role: role,
       confirmed: false,
-      confirmationCode
+      confirmationCode,
+      createdWith: 'password'
     }).then(() => {
       log.info('settings.create_user_successful', { email: userEmail });
       this.sendConfirmationEmail(userEmail, confirmationCode);
