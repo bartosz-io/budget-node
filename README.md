@@ -176,4 +176,4 @@ export function hasRole(roleToCheck: UserRole) {
 
 ### License
 
-MIT
+GPL-3.0
