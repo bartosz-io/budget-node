@@ -21,6 +21,21 @@ export class InMemoryUserRepository implements UserRepository {
     });
   }
 
+  getUserByExternalId(provider: string, externalId: string): Promise<User> {
+    const user = USERS.find(user => !!externalId && !!user.externalId && user.externalId[provider] === externalId);
+    return new Promise((resolve, reject) => {
+      user ? resolve(user) : reject();
+    });
+  }
+
+  assertUserWithExternalIdNotExist(provider: string, externalId: string): Promise<void> {
+    return new Promise((resolve, reject) => {
+      this.getUserByExternalId(provider, externalId)
+        .then((user) => reject('User already exists'))
+        .catch(() => resolve());
+    });
+  }
+
   getUsers(accountId: Id): Promise<User[]> {
     const users = USERS.filter(user => user.accountId === accountId)
     return Promise.resolve(users);
@@ -45,7 +60,8 @@ let USERS: User[] = [
     email: 'admin@app.com',
     password: '$2y$10$k.58cTqd/rRbAOc8zc3nCupCC6QkfamoSoO2Hxq6HVs0iXe7uvS3e', // '123'
     role: 'ADMIN',
-    confirmed: true
+    confirmed: true,
+    createdWith: 'password'
   },
   {
     id: '1',
@@ -53,7 +69,8 @@ let USERS: User[] = [
     email: 'bartosz@app.com',
     password: '$2y$10$k.58cTqd/rRbAOc8zc3nCupCC6QkfamoSoO2Hxq6HVs0iXe7uvS3e', // '123'
     role: 'OWNER',
-    confirmed: true
+    confirmed: true,
+    createdWith: 'password'
   },
   {
     id: '2',
@@ -61,7 +78,8 @@ let USERS: User[] = [
     email: 'john@app.com',
     password: '$2y$10$k.58cTqd/rRbAOc8zc3nCupCC6QkfamoSoO2Hxq6HVs0iXe7uvS3e', // '123'
     role: 'OWNER',
-    confirmed: true
+    confirmed: true,
+    createdWith: 'password'
   },
   {
     id: '3',
@@ -69,6 +87,18 @@ let USERS: User[] = [
     email: 'mike@app.com',
     password: '$2y$10$k.58cTqd/rRbAOc8zc3nCupCC6QkfamoSoO2Hxq6HVs0iXe7uvS3e', // '123'
     role: 'READER',
-    confirmed: true
-  }
+    confirmed: true,
+    createdWith: 'password'
+  },
+  // {
+  //   id: '4',
+  //   accountId: '1',
+  //   email: 'hi@bartosz.io',
+  //   role: 'READER',
+  //   confirmed: true,
+  //   externalId: {
+  //     github: '8076187'
+  //   },
+  //   createdWith: 'github'
+  // }
 ];

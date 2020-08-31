@@ -6,7 +6,11 @@ export interface UserRepository {
     getUserById(id: Id, attachAccount?: boolean): Promise<User>;
 
     getUserByEmail(email: string): Promise<User>;
-    
+
+    getUserByExternalId(provider: string, externalId: string): Promise<User>;
+
+    assertUserWithExternalIdNotExist(provider: string, externalId: string): Promise<void>;
+
     getUsers(accountId: Id): Promise<User[]>;
 
     createUser(user: User): Promise<Id>;
