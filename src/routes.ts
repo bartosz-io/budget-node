@@ -7,12 +7,12 @@ import expensesCtrl from './app/expenses/expenses.controller';
 import settingsCtrl from './app/settings/settings.controller';
 import authService from './app/auth/services/auth.service.instance';
 
-const api = Router();
-api.use(dashboardCtrl);
-api.use(expensesCtrl);
-api.use(settingsCtrl);
+const api = Router()
+  .use(dashboardCtrl)
+  .use(expensesCtrl)
+  .use(settingsCtrl);
 
 export default Router()
-  .use('/auth', authCtrl)
-  .use('/admin', authService.authenticate(), adminCtrl)
+  .use('/api/auth', authCtrl)
+  .use('/api/admin', authService.authenticate(), adminCtrl)
   .use('/api', authService.authenticate(), api);
