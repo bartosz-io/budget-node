@@ -2,6 +2,7 @@ import { Router, Request, Response } from 'express';
 import { AuthRequest } from '../../models/authRequest';
 import { SignupService } from './services/signup.service';
 import { PasswordService } from './services/password.service';
+import externalAuthCtrl from './external-auth.controller';
 import authService from './services/auth.service.instance';
 import validator from './auth.validator';
 
@@ -82,5 +83,7 @@ router.get('/user', function (req: Request, res: Response) {
     res.status(200).json(user);
   });
 });
+
+router.use('/external', externalAuthCtrl);
 
 export default router;
