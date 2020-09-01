@@ -4,6 +4,6 @@ export interface ExternalAuthProvider {
 
   getAccessToken(authCode: string): Promise<string>;
 
-  getUserInfo(authCode: string): Promise<UserInfo>;
+  getUserInfo(accessToken: string): Promise<UserInfo>;
 
 }
