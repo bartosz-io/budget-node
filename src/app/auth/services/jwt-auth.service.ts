@@ -1,4 +1,3 @@
-const randtoken = require('rand-token');
 import bcrypt = require('bcryptjs');
 import jwt = require('jsonwebtoken');
 import CONFIG from '../../../config';
