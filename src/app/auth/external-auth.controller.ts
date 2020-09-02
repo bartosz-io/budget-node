@@ -23,7 +23,7 @@ router.get('/:provider/:action', function (req: Request, res: Response) {
       `&redirect_uri=${redirect_uri}`);
 
   } else {
-    res.status(400).json({msg: 'Provider not supported'});
+    res.redirect(`/login?msg=Provider not supported`);
   }
 
 });
