@@ -19,7 +19,7 @@ export class ExternalAuthService {
 
   login(provider: string, authCode: string, session: any): Promise<void> {
     const authProvider = getExternalAuthProvider(provider);
-    return authProvider.getAccessToken(authCode).then((token: string) =>
+    return authProvider.getAccessToken(authCode, 'login').then((token: string) =>
       authProvider.getUserInfo(token).then(userInfo =>
         userRepository.getUserByExternalId(provider, userInfo.id).then(user => {
           session.user = user;
@@ -34,7 +34,7 @@ export class ExternalAuthService {
 
   signup(provider: string, authCode: string, session: any): Promise<void> {
     const authProvider = getExternalAuthProvider(provider);
-    return authProvider.getAccessToken(authCode).then((token: string) =>
+    return authProvider.getAccessToken(authCode, 'signup').then((token: string) =>
       authProvider.getUserInfo(token).then((userInfo: any) =>
         userRepository.assertUserWithExternalIdNotExist(provider, userInfo.id).then(() =>
           this.doSignup(provider, userInfo).then(() => {
