@@ -15,6 +15,15 @@ const externalAuth = {
     scope: 'user:email',
     clientID: secret.github.clientID,
     clientSecret: secret.github.clientSecret
+  },
+  google: {
+    authorizeUrl: 'https://accounts.google.com/o/oauth2/v2/auth',
+    accessTokenUrl: 'https://oauth2.googleapis.com/token',
+    userInfoUrl: 'https://openidconnect.googleapis.com/v1/userinfo',
+    callbackURL: 'http://localhost:8080/api/auth/external/google/callback',
+    scope: 'openid email profile',
+    clientID: secret.google.clientID,
+    clientSecret: secret.google.clientSecret
   }
 }
 
