@@ -1,6 +1,7 @@
 import bcrypt = require('bcryptjs');
 import { Request, Response, NextFunction } from 'express';
 import { AuthService } from './auth.service';
+import { OtpService } from './otp.service';
 import { UserRepository } from '../repositories/user.repository';
 import { InMemoryUserRepository } from '../repositories/in-memory/in-memory-user.repository';
 import { AuthRequest } from 'src/models/authRequest';
@@ -9,6 +10,7 @@ import log from './../../../utils/logger';
 
 // TODO provide configuration for repositories
 const userRepository: UserRepository = new InMemoryUserRepository();
+const otp = new OtpService();
 
 export class SessionAuthService implements AuthService<User> {
 
@@ -29,9 +31,14 @@ export class SessionAuthService implements AuthService<User> {
     return userRepository.getUserByEmail(email).then(user => {
       return bcrypt.compare(loginRequest.password, user.password!).then(match => {
         if (match && user.confirmed) {
-          loginRequest.session.user = user;
-          log.info('auth.session_login_successful', { user });
-          return Promise.resolve(User.toSafeUser(user));
+          
+          // IDEA: add login throttler in catch block
+          return otp.checkOtpIfRequired(loginRequest, user).then(() => {
+            loginRequest.session.user = user;
+            log.info('auth.session_login_successful', { user });
+            return Promise.resolve(User.toSafeUser(user));
+          });
+
         } else {
           log.info('auth.session_login_failed', { user });
           return Promise.reject();
