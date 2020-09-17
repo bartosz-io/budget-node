@@ -52,6 +52,13 @@ export class InMemoryUserRepository implements UserRepository {
     return Promise.resolve();
   }
 
+  patchUser(id: Id, data: User): Promise<void> {
+    return this.getUserById(id)
+      .then(userToPatch => {
+        Object.assign(userToPatch, data);
+      });
+  }
+
 }
 
 let USERS: User[] = [
