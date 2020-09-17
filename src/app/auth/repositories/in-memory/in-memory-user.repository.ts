@@ -77,7 +77,9 @@ let USERS: User[] = [
     password: '$2y$10$k.58cTqd/rRbAOc8zc3nCupCC6QkfamoSoO2Hxq6HVs0iXe7uvS3e', // '123'
     role: 'OWNER',
     confirmed: true,
-    createdWith: 'password'
+    createdWith: 'password',
+    tfa: true,
+    tfaSecret: 'FB2S2HQLIE2UIZQDGYLCMS3SNZMXQDSK'
   },
   {
     id: '2',

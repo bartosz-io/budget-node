@@ -17,12 +17,14 @@ export class User {
     requested: Date;
   };
 
+  tfa? = false;
+  tfaSecret?: string;
   createdWith: AuthProvider = 'password';
   externalId?: {[keyof: string]: string};
 
   static toSafeUser(user: User): User {
-    const { id, accountId, email, role, confirmed } = user;
-    return  { id, accountId, email, role, confirmed } as User;
+    const { id, accountId, email, role, confirmed, tfa } = user;
+    return  { id, accountId, email, role, confirmed, tfa } as User;
   }
 
   static build(data: any): User {
