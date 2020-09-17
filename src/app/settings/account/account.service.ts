@@ -8,6 +8,8 @@ import { User } from '../../../models/user';
 
 const userRepository: UserRepository = new InMemoryUserRepository();
 
+const PATCHABLE_PROPS = ['tfa'];
+
 export class AccountService {
 
   getUsers(accountId: string): Promise<User[]> {
@@ -33,6 +35,17 @@ export class AccountService {
       log.error('settings.create_user_failed', { email: userEmail });
       throw error; // rethrow the error for the controller
     });
+  }
+
+  patchUser(userId: Id, data: any): Promise<void> {
+    const filteredUser = Object.keys(data)
+      .filter(property => PATCHABLE_PROPS.includes(property))
+      .reduce((user: any, property) => {
+        user[property] = data[property];
+        return user;
+      }, {});
+
+    return userRepository.patchUser(userId, filteredUser);
   }
 
   deleteUser(userId: Id): Promise<void> {
