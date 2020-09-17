@@ -1,6 +1,7 @@
 const randtoken = require('rand-token');
 import bcrypt = require('bcryptjs');
 import CONFIG from '../../../config';
+import { OtpService } from './otp.service';
 import { UserRepository } from '../repositories/user.repository';
 import { AccountRepository } from '../repositories/account.repository';
 import { InMemoryAccountRepository } from '../repositories/in-memory/in-memory-account.repository';
@@ -13,6 +14,7 @@ import log from './../../../utils/logger';
 const userRepository: UserRepository = new InMemoryUserRepository();
 const accountRepository: AccountRepository = new InMemoryAccountRepository();
 const categoriesRepository: CategoriesRepository = new InMemoryCategoriesRepository();
+const otp = new OtpService();
 
 /*
   >>> Salt prevents from Rainbow Tables attack. How bcrypt generates salt?
@@ -50,7 +52,8 @@ export class SignupService {
             role: 'OWNER',
             confirmed: false,
             confirmationCode,
-            createdWith: 'password'
+            createdWith: 'password',
+            tfaSecret: otp.generateNewSecret()
           })
         ])).then(() => {
           log.info('auth.signup_successful', { email: signupRequest.email });
