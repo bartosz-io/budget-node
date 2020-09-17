@@ -41,3 +41,18 @@ export function denyOwnUserDeletion() {
   }
 
 }
+
+export function allowOwnUserPatchOnly() {
+
+  return function (req: Request, res: Response, next: NextFunction) {
+    const user = req.user as User;
+    const userToPatchId = req.params.id;
+
+    if (userToPatchId && userToPatchId === user.id && req.method.toUpperCase() === 'PATCH') {
+      next();
+    } else {
+      res.status(403).json({ msg: 'Operation not permitted' });
+    }
+  }
+
+}
