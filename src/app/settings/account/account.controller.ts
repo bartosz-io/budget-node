@@ -43,4 +43,10 @@ router.delete('/users/:id', denyOwnUserDeletion(), userBelongsToAccount(), funct
     .then(() => res.sendStatus(204));
 });
 
+router.get('/secret', function (req: Request, res: Response) {
+  const currentUser = req.user as User;
+  const keyuri = otpService.getOtpKeyUri(currentUser);
+  res.status(200).json({ keyuri });
+});
+
 export default router;
