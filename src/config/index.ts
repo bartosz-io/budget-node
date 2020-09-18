@@ -24,6 +24,15 @@ const externalAuth = {
     scope: 'openid email profile',
     clientID: secret.google.clientID,
     clientSecret: secret.google.clientSecret
+  },
+  facebook: {
+    authorizeUrl: 'https://www.facebook.com/dialog/oauth',
+    accessTokenUrl: 'https://graph.facebook.com/oauth/access_token',
+    userInfoUrl: 'https://graph.facebook.com/me',
+    callbackURL: 'http://localhost:8080/api/auth/external/facebook/callback',
+    scope: 'email',
+    clientID: secret.facebook.clientID,
+    clientSecret: secret.facebook.clientSecret
   }
 }
 
