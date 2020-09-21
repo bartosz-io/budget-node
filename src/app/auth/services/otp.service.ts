@@ -30,9 +30,10 @@ export class OtpService {
           log.error('auth.otp.error', { user, error });
           return reject();
         }
-      }
 
-      log.info('auth.otp.valid', { user });
+        log.info('auth.otp.valid', { user });
+      }
+      
       resolve();
     });
   }
