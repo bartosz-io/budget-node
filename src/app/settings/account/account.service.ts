@@ -37,7 +37,7 @@ export class AccountService {
     });
   }
 
-  patchUser(userId: Id, data: any): Promise<void> {
+  patchUser(userId: Id, data: any, session?: any): Promise<void> {
     const filteredUser = Object.keys(data)
       .filter(property => PATCHABLE_PROPS.includes(property))
       .reduce((user: any, property) => {
@@ -45,7 +45,12 @@ export class AccountService {
         return user;
       }, {});
 
-    return userRepository.patchUser(userId, filteredUser);
+    return userRepository.patchUser(userId, filteredUser)
+      .then(patchedUser => {
+        if (session && session.user && session.user.id === userId) {
+          session.user = patchedUser;
+        }
+      })
   }
 
   deleteUser(userId: Id): Promise<void> {

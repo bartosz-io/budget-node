@@ -15,7 +15,7 @@ export interface UserRepository {
 
     createUser(user: User): Promise<Id>;
 
-    patchUser(id: Id, user: User): Promise<void>;
+    patchUser(id: Id, user: User): Promise<User>;
 
     deleteUser(id: Id): Promise<void>;
 

@@ -31,7 +31,7 @@ router.patch('/users/:id', allowOwnUserPatchOnly(), function (req: Request, res:
   const userToPatchId = req.params.id;
   const propsToPatch = req.body;
 
-  accountService.patchUser(userToPatchId, propsToPatch)
+  accountService.patchUser(userToPatchId, propsToPatch, req.session)
     .then(() => res.status(201).json())
     .catch((err) => res.status(401).json({ msg: err ? err : 'Editing user failed' }));
 });
