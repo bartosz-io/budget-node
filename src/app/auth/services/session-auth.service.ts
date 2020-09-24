@@ -67,9 +67,10 @@ export class SessionAuthService implements AuthService<User> {
   }
 
   getCurrentUser(session: any): Promise<any> {
-    if (session && session.user && session.user.id) {
-      return userRepository.getUserById(session.user.id)
-        .then(user => User.toSafeUser(user));
+    if (session && session.user) {
+      const user = User.build(session.user);
+      const safeUser = User.toSafeUser(user);
+      return Promise.resolve(safeUser);
     } else {
       return Promise.resolve();
     }
