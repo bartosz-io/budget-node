@@ -45,8 +45,12 @@ router.delete('/users/:id', denyOwnUserDeletion(), userBelongsToAccount(), funct
 
 router.get('/secret', function (req: Request, res: Response) {
   const currentUser = req.user as User;
-  const keyuri = otpService.getOtpKeyUri(currentUser);
-  res.status(200).json({ keyuri });
+  if (currentUser.tfaSecret) {
+    const keyuri = otpService.getOtpKeyUri(currentUser);
+    res.status(200).json({ keyuri });
+  } else {
+    res.status(400).json({ msg: 'Error with generating code' });
+  }
 });
 
 export default router;
