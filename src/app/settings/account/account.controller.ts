@@ -33,7 +33,7 @@ router.patch('/users/:id', allowOwnUserPatchOnly(), function (req: Request, res:
 
   accountService.patchUser(userToPatchId, propsToPatch, req.session)
     .then(() => res.status(201).json())
-    .catch((err) => res.status(401).json({ msg: err ? err : 'Editing user failed' }));
+    .catch((err) => res.status(400).json({ msg: err ? err : 'Editing user failed' }));
 });
 
 router.delete('/users/:id', denyOwnUserDeletion(), userBelongsToAccount(), function (req: Request, res: Response) {
