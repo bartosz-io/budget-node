@@ -1,6 +1,7 @@
 
 import { Router } from 'express';
 import authCtrl from './app/auth/auth.controller';
+import auth0Ctrl from './app/auth0/auth0.controller';
 import adminCtrl from './app/admin/admin.controller';
 import dashboardCtrl from './app/dashboard/dashboard.controller';
 import expensesCtrl from './app/expenses/expenses.controller';
@@ -14,5 +15,6 @@ const api = Router()
 
 export default Router()
   .use('/api/auth', authCtrl)
+  .use('/api/auth0', auth0Ctrl)
   .use('/api/admin', authService.authenticate(), adminCtrl)
   .use('/api', authService.authenticate(), api);

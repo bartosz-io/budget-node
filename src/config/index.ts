@@ -27,6 +27,17 @@ const externalAuth = {
   }
 }
 
+const auth0Config = {
+  apiUrl: 'https://dev-5qi53ez9.eu.auth0.com/api/v2/',
+  authorizeUrl: 'https://dev-5qi53ez9.eu.auth0.com/authorize',
+  accessTokenUrl: 'https://dev-5qi53ez9.eu.auth0.com/oauth/token',
+  userInfoUrl: 'https://dev-5qi53ez9.eu.auth0.com/authorize/userinfo',
+  callbackURL: 'http://localhost:8080/api/auth0/callback',
+  scope: 'openid email profile',
+  clientID: secret.auth0.clientID,
+  clientSecret: secret.auth0.clientSecret
+}
+
 const bunyanStreamSetting = process.env.LOGS || 'file';
 const bunyanStdoutStream = { stream: process.stdout };
 const bunyanFileStream = {
@@ -39,6 +50,7 @@ const bunyanFileStream = {
 export default {
   jwtSecret,
   externalAuth,
+  auth0: auth0Config,
   auth: 'session' as 'session' | 'jwt',
   loginThrottle: {
     maxFailures: 3,
