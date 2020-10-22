@@ -19,9 +19,9 @@ router.post('/signup', validator, function (req: Request, res: Response) {
   });
 });
 
-router.get('/confirm', function (req: Request, res: Response) {
-  let email = req.query.email;
-  let confirmationCode = req.query.code;
+router.post('/confirm', function (req: Request, res: Response) {
+  let email = req.body.email;
+  let confirmationCode = req.body.code;
   signupService.confirm(email, confirmationCode).then(() => {
     res.sendStatus(204);
   }).catch(() => {
