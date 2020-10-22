@@ -41,8 +41,8 @@ router.post('/setup', function (req: Request, res: Response) {
   });
 });
 
-router.get('/recover', function (req: Request, res: Response) {
-  let email = req.query.email;
+router.post('/recover-request', function (req: Request, res: Response) {
+  let email = req.body.email;
 
   passwordService.requestRecovery(email).then(() => {
     res.sendStatus(204);
