@@ -48,7 +48,7 @@ export class Auth0Api {
         log.info('auth0.user.updated', { userId, data });
         return res.data;
       }).catch((error: any) => {
-        log.error('auth0.user.updated_failed', { error });
+        log.error('auth0.user.update_failed', { error });
         return Promise.reject('Could not signup user');
       });
   }
