@@ -56,7 +56,7 @@ export default {
     maxFailures: 3,
     timeWindowInMinutes: 10
   },
-  clientUrl: 'http://localhost:4200',
+  clientUrl: 'http://localhost:8080',
   sessionConfig: {
     name: 'session_id',
     secret: cookieSecret,
