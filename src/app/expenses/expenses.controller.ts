@@ -12,7 +12,7 @@ const router = Router();
 
 router.use('/expenses', readerOnlyReads());
 
-router.get('/expenses/:month/:year', function (req: Request, res: Response) {
+router.get('/expenses', function (req: Request, res: Response) {
   const user = req.user as User;
   const period = buildPeriodFromRequest(req);
   const categoryQuery = req.query.categoryName;
