@@ -61,7 +61,7 @@ export class InMemoryUserRepository implements UserRepository {
 
 let USERS: User[] = [
   {
-    id: '0',
+    id: '1',
     email: 'admin@app.com',
     password: '$2y$10$k.58cTqd/rRbAOc8zc3nCupCC6QkfamoSoO2Hxq6HVs0iXe7uvS3e', // '123'
     role: 'ADMIN',
@@ -69,7 +69,7 @@ let USERS: User[] = [
     createdWith: 'password'
   },
   {
-    id: '1',
+    id: '2',
     accountId: '1',
     email: 'bartosz@app.com',
     password: '$2y$10$k.58cTqd/rRbAOc8zc3nCupCC6QkfamoSoO2Hxq6HVs0iXe7uvS3e', // '123'
@@ -80,7 +80,7 @@ let USERS: User[] = [
     tfaSecret: 'FB2S2HQLIE2UIZQDGYLCMS3SNZMXQDSK'
   },
   {
-    id: '2',
+    id: '3',
     accountId: '2',
     email: 'john@app.com',
     password: '$2y$10$k.58cTqd/rRbAOc8zc3nCupCC6QkfamoSoO2Hxq6HVs0iXe7uvS3e', // '123'
@@ -89,7 +89,7 @@ let USERS: User[] = [
     createdWith: 'password'
   },
   {
-    id: '3',
+    id: '4',
     accountId: '2',
     email: 'mike@app.com',
     password: '$2y$10$k.58cTqd/rRbAOc8zc3nCupCC6QkfamoSoO2Hxq6HVs0iXe7uvS3e', // '123'
@@ -98,7 +98,7 @@ let USERS: User[] = [
     createdWith: 'password'
   },
   {
-    id: '4',
+    id: '5',
     accountId: '1',
     email: 'hi@bartosz.io',
     role: 'OWNER',
