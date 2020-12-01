@@ -25,23 +25,32 @@ const otp = new OtpService();
       .then(hash => console.log({ salt, hash }));
   });
 
-  >>> results in:
+  >>> Results in:
 
   {
     salt: '$2a$10$f8.SA/84vLuIqChGu4Y/6u',
     hash: '$2a$10$f8.SA/84vLuIqChGu4Y/6uFZMdQsBSAnYjymCIrXLVsIihRiDN4kS'
   }
 
-  >>> Components concatenated: prefix + salt lenght + salt + hash
+  >>> Where:
 
-  $2a$ - bcrypt prefix
-  $10$ - salt lenght
+  $2a$                            - bcrypt prefix
+  $10$                            - cost factor (2^10 ==> 1,024 iterations)
+  f8.SA/84vLuIqChGu4Y/6u          - salt
+  FZMdQsBSAnYjymCIrXLVsIihRiDN4kS - hash
+  
+  >>> Structure:
+
+  $2a$[cost]$[22 character salt][31 character hash]
+  \__/\____/ \_________________/\_________________/
+  Alg  Cost          Salt              Hash
+
 */
 export class SignupService {
 
   signup(signupRequest: AuthRequest): Promise<void> {
     const confirmationCode = randtoken.uid(256);
-    return bcrypt.hash(signupRequest.password, 10) // 10 is the salt length (implicit salt generation)
+    return bcrypt.hash(signupRequest.password, 10) // 10 is the cost factor (implicit salt generation)
       .then(hashedPassword => accountRepository.createAccount({})
         .then(accountId => Promise.all([
           categoriesRepository.createDefaultCategories(accountId),
