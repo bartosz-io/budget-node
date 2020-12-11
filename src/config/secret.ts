@@ -6,5 +6,9 @@ export const secret = {
   google: {
     clientID: '<place `clientID` here>',
     clientSecret: '<place `clientSecret` here>'
+  },
+  auth0: {
+    clientID: '<place `clientID` here>',
+    clientSecret: '<place `clientSecret` here>'
   }
 }
