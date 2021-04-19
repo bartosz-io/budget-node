@@ -1,6 +1,6 @@
 # Budget application
 
-This is the final project in the training program [Angular Enterprise Security Academy](https://angular-academy.com/security). It represents a real-life use case of personal money tracker. There are five main feature modules: *Auth*, *Dashboard*, *Expenses*, *Settings* and *Admin* with many security measures implemented described below. The project implements [role-based access control](https://en.wikipedia.org/wiki/Role-based_access_control) (RBAC), giving different users different permissions. This is the backend part to the accompanying [frontend](https://github.com/bartosz-io/budget-angular) in Angular.
+This is the final project in the training program [Web Security Academy](https://websecurity-academy.com/?utm_source=github&utm_medium=referral&utm_campaign=budget-node-readme). It represents a real-life use case of personal money tracker. There are five main feature modules: *Auth*, *Dashboard*, *Expenses*, *Settings* and *Admin* with many security measures implemented described below. The project implements [role-based access control](https://en.wikipedia.org/wiki/Role-based_access_control) (RBAC), giving different users different permissions. This is the backend part to the accompanying [frontend](https://github.com/bartosz-io/budget-angular) in Angular.
 
 ## Main modules
 
