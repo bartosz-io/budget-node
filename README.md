@@ -16,6 +16,9 @@ This is the final project in the training program [Web Security Academy](https:/
 | Owner | Create, read, update and delete expenses, categories. Create and delete account's users.  |
 | Admin | Read and delete active users' sessions. |
 
+## Mock users
+You can find mock users in [in-memory-user.repository.ts](https://github.com/bartosz-io/budget-node/blob/master/src/app/auth/repositories/in-memory/in-memory-user.repository.ts#L62).
+
 ## Authentication mechanisms
 
 There are two authentication mechanism implemented in both Angular and Node.js parts:
