@@ -20,7 +20,7 @@ router.post('/signup', validator, function (req: Request, res: Response) {
 });
 
 router.post('/confirm', function (req: Request, res: Response) {
-  let email = req.body.email;
+  let email = req.body.email; // may require "as string"; To check after TypeScript update
   let confirmationCode = req.body.code;
   signupService.confirm(email, confirmationCode).then(() => {
     res.sendStatus(204);
