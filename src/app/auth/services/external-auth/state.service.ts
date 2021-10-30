@@ -17,7 +17,7 @@ export default {
   },
 
   assertStateIsValid(session: any, state: string) {
-    return new Promise((resolve, reject) => {
+    return new Promise<void>((resolve, reject) => {
       if (!!state && state.length === LENGTH && state === session.oauthState) {
         log.info('auth.external.state.valid_check', { state });
         resolve();

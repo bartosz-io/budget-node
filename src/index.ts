@@ -1,4 +1,3 @@
-
 import bodyParser = require('body-parser');
 import cors = require('cors');
 import morgan = require('morgan');
@@ -12,6 +11,11 @@ import config from './config';
 import errorHandler from './utils/error-handler';
 import serveIndex from './utils/serve-index';
 import logger from './utils/logger';
+import { User } from './models/user';
+
+declare module 'express-session' {
+  interface SessionData { user: User | null | undefined }
+}
 
 const app = express();
 app.use(express.static('../angular/dist/'));

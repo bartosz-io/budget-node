@@ -7,7 +7,7 @@ import log from './../../../utils/logger';
 export class OtpService {
 
   checkOtpIfRequired(loginRequest: AuthRequest, user: User) {
-    return new Promise((resolve, reject) => {
+    return new Promise<void>((resolve, reject) => {
       if (user.tfa) { 
         
         if (!loginRequest.otp) {
