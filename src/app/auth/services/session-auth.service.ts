@@ -3,37 +3,34 @@ import { Request, Response, NextFunction } from 'express';
 import { AuthService } from './auth.service';
 import { OtpService } from './otp.service';
 import { UserRepository } from '../repositories/user.repository';
-import { InMemoryUserRepository } from '../repositories/in-memory/in-memory-user.repository';
 import { AuthRequest } from 'src/models/authRequest';
 import { User } from '../../../models/user';
 import log from './../../../utils/logger';
 
-// TODO provide configuration for repositories
-const userRepository: UserRepository = new InMemoryUserRepository();
-const otp = new OtpService();
-
 export class SessionAuthService implements AuthService<User> {
 
-  // TODO move HTTP specific code away from Service layer
+  constructor(private otp: OtpService, private userRepository: UserRepository) {}
+
   authenticate() {
     return (req: Request, res: Response, next: NextFunction) => {
       if (req.session && req.session.user) {
         req.user = req.session.user;
         next();
       } else {
-        res.status(401).json({ msg: 'You are not authorized to perform this operation' });
+        res.statusCode = 401;
+        res.json({ msg: 'You are not authorized to perform this operation' });
       }
     };
   }
 
   login(loginRequest: AuthRequest): Promise<User> {
     const email = loginRequest.email;
-    return userRepository.getUserByEmail(email).then(user => {
+    return this.userRepository.getUserByEmail(email).then(user => {
       return bcrypt.compare(loginRequest.password, user.password!).then(match => {
         if (match && user.confirmed) {
           
           // IDEA: add login throttler in catch block
-          return otp.checkOtpIfRequired(loginRequest, user).then(() => {
+          return this.otp.checkOtpIfRequired(loginRequest, user).then(() => {
             loginRequest.session.user = user;
             log.info('auth.session_login_successful', { user });
             return Promise.resolve(User.toSafeUser(user));
