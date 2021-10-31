@@ -26,13 +26,13 @@ const responseMock = () => {
 
 const nextMock: NextFunction = jest.fn();
 
-const otpMock = () => {
+const otpStub = () => {
   return {
     checkOtpIfRequired: jest.fn(() => Promise.resolve())
   } as Pick<OtpService, 'checkOtpIfRequired'> as OtpService;
 }
 
-const userRepoMock = (user = fakeUser) => {
+const userRepoStub = (user = fakeUser) => {
   return {
     getUserByEmail: jest.fn(() => Promise.resolve(user))
   } as Pick<UserRepository, 'getUserByEmail'> as UserRepository;
@@ -44,7 +44,7 @@ describe('SessionAuthService', () => {
 
     it('returns a request handler', () => {
       // given
-      const sessionAuthService = new SessionAuthService(otpMock(), userRepoMock());
+      const sessionAuthService = new SessionAuthService(otpStub(), userRepoStub());
 
       // when
       const result = sessionAuthService.authenticate();
@@ -56,7 +56,7 @@ describe('SessionAuthService', () => {
     it('returns a handler that continues execution when user in session', () => {
       // given
       const newResponseMock = responseMock() as Response;
-      const sessionAuthService = new SessionAuthService(otpMock(), userRepoMock());
+      const sessionAuthService = new SessionAuthService(otpStub(), userRepoStub());
       const handler = sessionAuthService.authenticate();
 
       // when
@@ -69,7 +69,7 @@ describe('SessionAuthService', () => {
     it('returns a handler that finishes execution when no user in session', () => {
       // given
       const newResponseMock = responseMock() as Response;
-      const sessionAuthService = new SessionAuthService(otpMock(), userRepoMock());
+      const sessionAuthService = new SessionAuthService(otpStub(), userRepoStub());
       const requestWithoutUser = { session: { user: null } } as Request;
       const handler = sessionAuthService.authenticate();
 
@@ -86,7 +86,7 @@ describe('SessionAuthService', () => {
 
     it('logs in and returns the logged user', (done) => {
       // given
-      const sessionAuthService = new SessionAuthService(otpMock(), userRepoMock());
+      const sessionAuthService = new SessionAuthService(otpStub(), userRepoStub());
       const request = new AuthRequest('bartosz@app.com', '123', '', {});
 
       // when
@@ -100,7 +100,7 @@ describe('SessionAuthService', () => {
 
     it('fails to login with a wrong password', (done) => {
       // given
-      const sessionAuthService = new SessionAuthService(otpMock(), userRepoMock());
+      const sessionAuthService = new SessionAuthService(otpStub(), userRepoStub());
       const request = new AuthRequest('bartosz@app.com', 'wrong', '', {});
 
       // when
@@ -114,7 +114,7 @@ describe('SessionAuthService', () => {
     it('fails to login unconfirmed user with a valid password', (done) => {
       // given
       const unconfirmedUser = { ...fakeUser, confirmed: false } as User;
-      const sessionAuthService = new SessionAuthService(otpMock(), userRepoMock(unconfirmedUser));
+      const sessionAuthService = new SessionAuthService(otpStub(), userRepoStub(unconfirmedUser));
       const request = new AuthRequest('bartosz@app.com', '123', '', {});
 
       // when
@@ -129,7 +129,7 @@ describe('SessionAuthService', () => {
     it('fails to login with invalid otp - classic style', (done) => {
       // given
       const otp = new OtpService(); // production code of OtpService
-      const sessionAuthService = new SessionAuthService(otp, userRepoMock());
+      const sessionAuthService = new SessionAuthService(otp, userRepoStub());
       const request = new AuthRequest('bartosz@app.com', '123', 'invalid', {});
 
       // when
@@ -148,7 +148,7 @@ describe('SessionAuthService', () => {
         checkOtpIfRequired: jest.fn(() => Promise.reject())
       } as Pick<OtpService, 'checkOtpIfRequired'>;
 
-      const sessionAuthService = new SessionAuthService(otpMock as OtpService, userRepoMock());
+      const sessionAuthService = new SessionAuthService(otpMock as OtpService, userRepoStub());
       const request = {
         email: 'bartosz@app.com',
         password: '123'
@@ -166,7 +166,7 @@ describe('SessionAuthService', () => {
     it('fails to login without any otp', (done) => {
       // given
       const otp = new OtpService();
-      const sessionAuthService = new SessionAuthService(otp, userRepoMock());
+      const sessionAuthService = new SessionAuthService(otp, userRepoStub());
       const request = new AuthRequest('bartosz@app.com', '123', '', {});
 
       // when
@@ -187,7 +187,7 @@ describe('SessionAuthService', () => {
         user: fakeUser,
         destroy: jest.fn((cb) => cb())
       };
-      const sessionAuthService = new SessionAuthService(otpMock(), userRepoMock());
+      const sessionAuthService = new SessionAuthService(otpStub(), userRepoStub());
 
       // when
       sessionAuthService.logout(session);
@@ -199,7 +199,7 @@ describe('SessionAuthService', () => {
     it('does nothing when session not found', (done) => {
       // given
       const session = {};
-      const sessionAuthService = new SessionAuthService(otpMock(), userRepoMock());
+      const sessionAuthService = new SessionAuthService(otpStub(), userRepoStub());
 
       // when
       sessionAuthService.logout(session).then(() => {
@@ -215,7 +215,7 @@ describe('SessionAuthService', () => {
         user: fakeUser,
         destroy: jest.fn((cb) => cb({ error: 'error' }))
       };
-      const sessionAuthService = new SessionAuthService(otpMock(), userRepoMock());
+      const sessionAuthService = new SessionAuthService(otpStub(), userRepoStub());
 
       // when
       sessionAuthService.logout(session).catch(() => {
@@ -233,7 +233,7 @@ describe('SessionAuthService', () => {
       const session = {
         user: fakeUser,
       };
-      const sessionAuthService = new SessionAuthService(otpMock(), userRepoMock());
+      const sessionAuthService = new SessionAuthService(otpStub(), userRepoStub());
 
       // when
       sessionAuthService.getCurrentUser(session).then((user) => {
@@ -246,7 +246,7 @@ describe('SessionAuthService', () => {
     it('returns nothing if no user found', (done) => {
       // given
       const session = {};
-      const sessionAuthService = new SessionAuthService(otpMock(), userRepoMock());
+      const sessionAuthService = new SessionAuthService(otpStub(), userRepoStub());
 
       // when
       sessionAuthService.getCurrentUser(session).then((user) => {
