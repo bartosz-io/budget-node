@@ -1,4 +1,3 @@
-import bodyParser = require('body-parser');
 import cors = require('cors');
 import morgan = require('morgan');
 import express = require('express');
@@ -21,8 +20,8 @@ const app = express();
 app.use(express.static('../angular/dist/'));
 app.use(session(config.sessionConfig));
 app.use(morgan(config.morganPattern, { stream: config.morganStream }));
-app.use(bodyParser.json());
-app.use(bodyParser.urlencoded({ extended: true }));
+app.use(express.json());
+app.use(express.urlencoded({ extended: true }));
 app.use(passport.initialize());
 app.use(cors());
 app.use(csrf());
