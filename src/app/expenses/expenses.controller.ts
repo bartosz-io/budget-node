@@ -1,53 +1,66 @@
 import { Router, Request, Response } from 'express';
 import { ExpensesRepository } from './expenses.repository';
-import { InMemoryExpensesRepository } from './in-memory-expenses.repository';
 import { buildPeriodFromRequest } from '../../utils/controller.utils';
 import { expenseBelongsToAccount } from './expenses.middleware';
 import { readerOnlyReads } from '../auth/role.middleware';
 import expensesValidator from './expenses.validator';
 import { User } from '../../models/user';
 
-const repository: ExpensesRepository = new InMemoryExpensesRepository(); // TODO use DI container
-const router = Router();
+export class ExpensesController {
 
-router.use('/expenses', readerOnlyReads());
+  private readonly router: Router;
 
-router.get('/expenses', function (req: Request, res: Response) {
-  const user = req.user as User;
-  const period = buildPeriodFromRequest(req);
-  const categoryQuery = req.query.categoryName;
-
-  if (!categoryQuery) {
-    repository.getExpenses(user.accountId as string, period).then(expenses => res.json(expenses));
-  } else {
-    repository.getExpensesByCategory(user.accountId as string, period, categoryQuery)
-      .then(expenses => res.json(expenses));
+  constructor(private repository: ExpensesRepository) {
+    this.router = Router();
+    this.initRoutes();
   }
-});
 
-router.post('/expenses', expensesValidator, function (req: Request, res: Response) {
-  const user = req.user as User;
-  const expense = req.body;
-  expense.accountId = user.accountId;
+  public getRouter() {
+    return this.router;
+  }
 
-  repository.createExpense(expense)
-    .then(() => res.status(201).json());
-});
+  private initRoutes() {
+    this.router.use('/expenses', readerOnlyReads());
 
-router.put('/expenses/:id', expenseBelongsToAccount(), expensesValidator, function (req: Request, res: Response) {
-  const user = req.user as User;
-  const expense = req.body;
-  expense.id = req.params.id;
-  expense.accountId = user.accountId;
+    this.router.get('/expenses', (req: Request, res: Response) => {
+      const user = req.user as User;
+      const period = buildPeriodFromRequest(req);
+      const categoryQuery = req.query.categoryName;
 
-  repository.updateExpense(expense)
-    .then(() => res.status(200).json());
-});
+      if (!categoryQuery) {
+        this.repository.getExpenses(user.accountId as string, period).then(expenses => res.json(expenses));
+      } else {
+        this.repository.getExpensesByCategory(user.accountId as string, period, categoryQuery as string)
+          .then(expenses => res.json(expenses));
+      }
+    });
 
-router.delete('/expenses/:id', expenseBelongsToAccount(), function (req: Request, res: Response) {
-  const expenseId = req.params.id;
-  repository.deleteExpense(expenseId)
-    .then(() => res.sendStatus(204));
-});
+    this.router.post('/expenses', expensesValidator, (req: Request, res: Response) => {
+      const user = req.user as User;
+      const expense = req.body;
+      expense.accountId = user.accountId;
 
-export default router;
+      this.repository.createExpense(expense)
+        .then(() => res.status(201).json());
+    });
+
+    this.router.put('/expenses/:id', expenseBelongsToAccount(), expensesValidator, (req: Request, res: Response) => {
+      const user = req.user as User;
+      const expense = req.body;
+      expense.id = req.params.id;
+      expense.accountId = user.accountId;
+
+      this.repository.updateExpense(expense)
+        .then(() => res.status(200).json());
+    });
+
+    this.router.delete('/expenses/:id', expenseBelongsToAccount(), (req: Request, res: Response) => {
+      const expenseId = req.params.id;
+      this.repository.deleteExpense(expenseId)
+        .then(() => res.sendStatus(204));
+    });
+
+  }
+
+}
+
