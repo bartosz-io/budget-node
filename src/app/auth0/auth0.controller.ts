@@ -18,9 +18,10 @@ router.get('/', function (req: Request, res: Response) {
 });
 
 router.get('/callback', function (req, res) {
-  const authCode = req.query.code;
+  const authCode = req.query.code as string;
+  const state = req.query.state as string;
 
-  stateService.assertStateIsValid(req.session, req.query.state)
+  stateService.assertStateIsValid(req.session, state)
     .then(() => checkErrors(req))
     .then(() => auth0.login(authCode, req.session))
     .then(() => res.redirect('/'))
@@ -29,7 +30,7 @@ router.get('/callback', function (req, res) {
 
 function checkErrors(req: Request) {
   if (req.query.error) {
-    throw new Error(req.query.error_description);
+    throw new Error(req.query.error_description as string);
   }
 }
 

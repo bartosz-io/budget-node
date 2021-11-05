@@ -30,8 +30,9 @@ router.get('/:provider/:action', function (req: Request, res: Response) {
 
 router.get('/:provider/callback/signup', function (req, res) {
   const provider = req.params.provider;
-  const authCode = req.query.code;
-  stateService.assertStateIsValid(req.session, req.query.state).then(() =>
+  const authCode = req.query.code as string;
+  const state = req.query.state as string;
+  stateService.assertStateIsValid(req.session, state).then(() =>
     externalAuthService.signup(provider, authCode, req.session).then(() => {
       res.redirect('/');
     })
@@ -42,8 +43,9 @@ router.get('/:provider/callback/signup', function (req, res) {
 
 router.get('/:provider/callback/login', function (req, res) {
   const provider = req.params.provider;
-  const authCode = req.query.code;
-  stateService.assertStateIsValid(req.session, req.query.state).then(() =>
+  const authCode = req.query.code as string;
+  const state = req.query.state as string;
+  stateService.assertStateIsValid(req.session, state).then(() =>
     externalAuthService.login(provider, authCode, req.session).then(() => {
       res.redirect('/');
     })
