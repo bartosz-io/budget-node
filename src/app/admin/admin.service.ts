@@ -1,5 +1,5 @@
 import config from './../../config';
-import { Store } from 'express-session';
+import { SessionData, Store } from 'express-session';
 
 export class AdminService {
 
@@ -7,24 +7,24 @@ export class AdminService {
 
   getActiveSessions(): Promise<any> {
     return new Promise((resolve, reject) => {
-      this.store.all((err, sessions) => {
+      this.store.all?((err: any, sessions: SessionData[]) => {
         if (err) {
           return reject(err);
         }
 
         if (sessions) {
-          const result = Object.entries(sessions).map(([sessionId, session]: [string, Express.SessionData]) => {
+          const result = Object.entries(sessions).map(([sessionId, session]: [string, SessionData]) => {
             return {
               sessionId,
               user: {
-                email: session.user.email,
-                role: session.user.role
+                email: session.user?.email,
+                role: session.user?.role
               }
             }
           });
           resolve(result);
         }
-      });
+      }) : [];
     });
   }
 
