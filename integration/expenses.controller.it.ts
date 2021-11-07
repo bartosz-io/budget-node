@@ -20,7 +20,7 @@ describe('ExpensesController', () => {
     counterparty: 'fake'
   }
 
-  let expenseRepoMock: ExpensesRepository = {
+  let expenseRepoStub: ExpensesRepository = {
     getExpense: jest.fn(() => Promise.resolve(fakeExpense)),
     getExpenses: jest.fn(() => Promise.resolve([fakeExpense])),
     getExpensesByCategory: jest.fn(() => Promise.resolve([fakeExpense])),
@@ -42,7 +42,7 @@ describe('ExpensesController', () => {
       givenRequest(req);
       next();
     });
-    app.use(new ExpensesController(expenseRepoMock).getRouter());
+    app.use(new ExpensesController(expenseRepoStub).getRouter());
   });
 
   afterAll(() => server.close());
