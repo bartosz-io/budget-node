@@ -51,7 +51,7 @@ export default {
   jwtSecret,
   externalAuth,
   auth0: auth0Config,
-  auth: 'session' as 'session' | 'jwt',
+  auth: 'jwt' as 'session' | 'jwt',
   loginThrottle: {
     maxFailures: 3,
     timeWindowInMinutes: 10
