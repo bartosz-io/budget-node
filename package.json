@@ -11,7 +11,8 @@
     "test:coverage": "jest --coverage",
     "test:integration": "jest --testMatch **/integration/*.(it).ts",
     "test:e2e": "jest --testMatch **/e2e/*.(e2e).ts",
-    "test:arch": "jest --testMatch **/arch/*.(spec).ts"
+    "test:arch": "jest --testMatch **/arch/*.(spec).ts",
+    "test:pact": "jest --testMatch **/contract/*.(pact).ts"
   },
   "author": "",
   "license": "ISC",
@@ -37,6 +38,7 @@
     "rotating-file-stream": "^2.1.6"
   },
   "devDependencies": {
+    "@pact-foundation/pact": "^9.16.5",
     "@types/cors": "^2.8.12",
     "@types/express": "^4.17.13",
     "@types/express-session": "^1.17.4",
