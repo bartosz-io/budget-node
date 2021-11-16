@@ -36,13 +36,14 @@ describe('ExpensesController', () => {
 
   beforeAll((done) => {
     app = express();
-    server = app.listen(port, () => done());
     app.use(express.json());
     app.use((req: Request, _res: Response, next: NextFunction) => {
       givenRequest(req);
       next();
     });
     app.use(new ExpensesController(expenseRepoStub).getRouter());
+    
+    server = app.listen(port, () => done());
   });
 
   afterAll(() => server.close());
