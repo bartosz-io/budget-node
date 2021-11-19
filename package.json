@@ -12,7 +12,8 @@
     "test:integration": "jest --testMatch **/integration/*.(it).ts",
     "test:e2e": "jest --testMatch **/e2e/*.(e2e).ts",
     "test:arch": "jest --testMatch **/arch/*.(spec).ts",
-    "test:pact": "jest --testMatch **/contract/*.(pact).ts"
+    "test:pact": "jest --testMatch **/contract/*.(pact).ts",
+    "sonar": "sonar-scanner.bat"
   },
   "author": "",
   "license": "ISC",
@@ -51,6 +52,7 @@
     "@types/supertest": "^2.0.11",
     "faker": "^5.5.3",
     "jest": "^27.3.1",
+    "jest-sonar-reporter": "^2.0.0",
     "nodemon": "^2.0.14",
     "supertest": "^6.1.6",
     "ts-jest": "^27.0.7",

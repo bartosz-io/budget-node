@@ -1,4 +1,6 @@
 /node_modules
 /log/*
 /src/config/secret.ts
-coverage/*
+/coverage
+/.scannerwork
+test-report.xml
