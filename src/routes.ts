@@ -1,3 +1,4 @@
+import { NewFeatureController } from './app/new-feature/new-feature.controller';
 
 import { Router } from 'express';
 import authCtrl from './app/auth/auth.controller';
@@ -13,8 +14,10 @@ import { InMemoryExpensesRepository } from './app/expenses/in-memory-expenses.re
 
 const dashboardCtrl = new DashboardController(new InMemoryBudgetRepository());
 const expensesCtrl = new ExpensesController(new InMemoryExpensesRepository());
+const newFeatureCtrl = new NewFeatureController();
 
 const api = Router()
+  .use(newFeatureCtrl.getRouter())
   .use(dashboardCtrl.getRouter())
   .use(expensesCtrl.getRouter())
   .use(settingsCtrl);
