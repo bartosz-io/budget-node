@@ -29,5 +29,5 @@ app.use(cors());
 app.use(errorHandler());
 app.use(logger.initialize());
 app.use(routes);
-app.get('*', serveIndex());
+// app.get('*', serveIndex());
 app.listen(8080, () => logger.info('main.app_start'));
