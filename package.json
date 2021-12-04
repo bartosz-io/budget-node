@@ -6,6 +6,7 @@
   "scripts": {
     "start": "nodemon --config nodemon.json",
     "start:log": "env LOGS=stdout nodemon --config nodemon.json | bunyan",
+    "start:ci": "ts-node src/index.ts",
     "test": "jest",
     "test:watch": "jest --watch",
     "test:coverage": "jest --coverage",
