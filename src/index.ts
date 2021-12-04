@@ -17,7 +17,7 @@ declare module 'express-session' {
 }
 
 const app = express();
-app.use(express.static('../angular/dist/'));
+// app.use(express.static('../angular/dist/'));
 app.use(session(config.sessionConfig));
 app.use(morgan(config.morganPattern, { stream: config.morganStream }));
 app.use(express.json());
