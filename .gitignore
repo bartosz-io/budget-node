@@ -4,3 +4,4 @@
 /coverage
 /.scannerwork
 test-report.xml
+.dccache
